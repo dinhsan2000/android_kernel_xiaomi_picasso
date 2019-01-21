@@ -16113,6 +16113,12 @@ static int hdd_module_init(void)
 	return ret;
 }
 
+	if (hdd_driver_load())
+		return -EINVAL;
+
+	return 0;
+}
+
 /**
  * hdd_module_exit() - Exit function
  *

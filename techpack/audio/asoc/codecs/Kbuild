@@ -236,6 +236,12 @@ ifeq ($(KERNEL_BUILD), 1)
 	obj-y	+= sdm660_cdc/
 	obj-y	+= cs35l41/
 	obj-y	+= tfa98xx/
+
+ifdef CONFIG_MACH_XIAOMI_LITO
+	obj-y	+= cs35l41/
+	obj-y	+= tfa98xx/
+endif
+
 endif
 # Module information used by KBuild framework
 obj-$(CONFIG_WCD9XXX_CODEC_CORE) += wcd_core_dlkm.o

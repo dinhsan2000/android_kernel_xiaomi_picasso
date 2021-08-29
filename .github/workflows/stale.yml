@@ -12,16 +12,6 @@ task:
     cpu: 8
     memory: 8G
 
-
-steps:
-  - name: setup&kramel
-    image: dinhsan2000/ci_docker:latest
-    environment:
-      BOTTOKEN:
-        from_secret: 1583001052:AAEdbNvTVclDXq97mCgoHXQQ_76QjviKH8U
-      CHATID:
-        from_secret: 527634747
-
   Install_Packages_Ubuntu_script:
       - rm -rf *
       - apt update && apt-get install -y build-essential bc python curl git zip ftp gcc-aarch64-linux-gnu gcc-arm-linux-gnueabi libssl-dev lftp zstd wget libfl-dev clang flex bison cpio

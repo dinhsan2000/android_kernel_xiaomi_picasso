@@ -1,20 +1,24 @@
-name: Mark stale issues and pull requests
+kind: pipeline
+name: picasso_kramel
 
-env:
-    CIRRUS_CLONE_DEPTH: 1
-    CIRRUS_WORKING_DIR: "/tmp/ci"
+platform:
+  os: linux
+  arch: amd64
 
-task:
-  name: master
-  timeout_in: 2h
-  container:
-    image: dopaemon/bionic:latest
-    cpu: 8
-    memory: 8G
+clone:
+  depth: 1
 
-  Install_Packages_Ubuntu_script:
-      - rm -rf *
+steps:
+  - name: setup&kramel
+    image: dinhsan2000/ci_docker:latest
+    environment:
+      BOTTOKEN:
+        from_secret: 1583001052:AAEdbNvTVclDXq97mCgoHXQQ_76QjviKH8U
+      CHATID:
+        from_secret: 527634747
+    commands:
+      - mkdir kernul && cd kernul
       - apt update && apt-get install -y build-essential bc python curl git zip ftp gcc-aarch64-linux-gnu gcc-arm-linux-gnueabi libssl-dev lftp zstd wget libfl-dev clang flex bison cpio
-      - wget https://raw.githubusercontent.com/dinhsan2000/android_kernel_xiaomi_picasso/lineage-18.1/kramel.sh
+      - wget https://raw.githubusercontent.com/stormbreaker-project/kernel_xiaomi_picasso/rebase/kramel.sh
       - chmod +x kramel.sh
       - bash kramel.sh

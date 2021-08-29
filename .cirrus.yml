@@ -10,19 +10,17 @@ task:
     cpu: 8
     memory: 8G
 
-
-steps:
-  - name: setup&kramel
-    image: dinhsan2000/ci_docker:latest
-    environment:
-      BOTTOKEN:
-        from_secret: 1583001052:AAEdbNvTVclDXq97mCgoHXQQ_76QjviKH8U
-      CHATID:
-        from_secret: 527634747
-
   Install_Packages_Ubuntu_script:
-      - rm -rf *
-      - apt update && apt-get install -y build-essential bc python curl git zip ftp gcc-aarch64-linux-gnu gcc-arm-linux-gnueabi libssl-dev lftp zstd wget libfl-dev clang flex bison cpio
-      - wget https://raw.githubusercontent.com/dinhsan2000/android_kernel_xiaomi_picasso/lineage-18.1/kramel.sh
-      - chmod +x kramel.sh
-      - bash kramel.sh
+    - rm -rf *
+    - sudo apt-get update
+    - sudo apt-get install -y ccache rclone git-lfs bc bison build-essential ccache curl flex g++-multilib gcc-multilib git gnupg gperf lib32ncurses5-dev lib32readline-dev lib32z1-dev liblz4-tool libncurses5-dev libsdl1.2-dev libssl-dev libwxgtk3.0-dev libxml2 libxml2-utils lzop pngcrush rsync schedtool squashfs-tools xsltproc zip zlib1g-dev
+    - git clone -b master --single-branch https://github.com/dinhsan2000/android_kernel_xiaomi_picasso /tmp/ci/kernel
+  Compile_Kernel_script:
+    - cd /tmp/ci/kernel
+    - export CCACHE_DIR=/tmp/ccache
+    - export CCACHE_EXEC=$(which ccache)
+    - export USE_CCACHE=1
+    - ccache -M 20G
+    - ccache -o compression=true
+    - ccache -z
+    - ./Doraemon/CI/build.sh
